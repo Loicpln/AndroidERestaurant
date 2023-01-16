@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">AndroidERestaurant</string>
+    <string-array name="entree">
+        <item>Salade</item>
+        <item>Tapas</item>
+        <item>charcuterie</item>
+    </string-array>
+    <string-array name="plat">
+        <item>Burger</item>
+        <item>Pizza</item>
+        <item>Entre-côte</item>
+        <item>Carbonara</item>
+        <item>Kebab</item>
+        <item>Pad Thai</item>
+    </string-array>
+    <string-array name="dessert">
+        <item>Tiramissu</item>
+        <item>Glace</item>
+        <item>Mousse au chocolat</item>
+    </string-array>
 </resources>

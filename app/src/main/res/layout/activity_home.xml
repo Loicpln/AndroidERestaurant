@@ -11,23 +11,23 @@
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:text="Entrée"
-        android:translationX="80dp"
-        android:translationY="100dp" />
+        android:layout_centerHorizontal="true"
+        android:translationY="200dp" />
 
     <Button
         android:id="@+id/plat"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:text="Plat"
-        android:translationX="80dp"
-        android:translationY="250dp" />
+        android:layout_centerHorizontal="true"
+        android:translationY="350dp" />
 
     <Button
         android:id="@+id/dessert"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:text="Dessert"
-        android:translationX="80dp"
-        android:translationY="400dp" />
+        android:layout_centerHorizontal="true"
+        android:translationY="500dp" />
 
 </RelativeLayout>

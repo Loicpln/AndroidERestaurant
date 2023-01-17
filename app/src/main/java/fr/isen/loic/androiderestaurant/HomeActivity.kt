@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import fr.isen.loic.androiderestaurant.databinding.ActivityHomeBinding
 
@@ -18,6 +19,8 @@ class HomeActivity : AppCompatActivity() {
         title = "Home"
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.imageView.setImageResource(R.drawable.logo)
 
         addLink(binding.entree)
         addLink(binding.plat)

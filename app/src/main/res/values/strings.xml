@@ -3,7 +3,7 @@
     <string-array name="entree">
         <item>Salade</item>
         <item>Tapas</item>
-        <item>charcuterie</item>
+        <item>Charcuterie</item>
     </string-array>
     <string-array name="plat">
         <item>Burger</item>

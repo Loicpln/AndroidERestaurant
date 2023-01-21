@@ -29,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun addLink(button: Button) {
         button.setOnClickListener {
-            Toast.makeText(this, "You clicked on ${button.text}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "You clicked on ${button.text}", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, CategoryActivity::class.java).putExtra("category", button.text))
         }
     }

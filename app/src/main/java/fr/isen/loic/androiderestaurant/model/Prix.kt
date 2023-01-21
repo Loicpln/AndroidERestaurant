@@ -1,6 +1,6 @@
 package fr.isen.loic.androiderestaurant.model
 
-import java.util.*
+import java.io.Serializable
 
 data class Prix(
     var id: Int,
@@ -10,4 +10,4 @@ data class Prix(
     var create_date: String,
     var update_date: String,
     var size: String
-)
+) : Serializable

@@ -1,48 +1,38 @@
 package fr.isen.loic.androiderestaurant
 
-import com.android.volley.Request
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import fr.isen.loic.androiderestaurant.databinding.ActivityCategoryBinding
-import fr.isen.loic.androiderestaurant.model.Categorie
 import fr.isen.loic.androiderestaurant.model.Data
-import fr.isen.loic.androiderestaurant.model.Plat
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.Locale.Category
 
 class CategoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCategoryBinding
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var categorie: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
-        title = intent.getStringExtra("category").toString()
+        categorie = intent.getStringExtra("category").toString()
+        title = categorie
+
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         recyclerView = binding.list
         recyclerView.layoutManager = LinearLayoutManager(null)
-
-        /*val plat = when (title) {
-            "Entrée" -> resources.getStringArray(R.array.entree)
-            "Plat" -> resources.getStringArray(R.array.plat)
-            else -> resources.getStringArray(R.array.dessert)
-        }
-        recyclerView.adapter = CategoryAdapter(plat) {
-            Toast.makeText(this, "You clicked on $it", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, DetailActivity::class.java).putExtra("item", it))
-        }*/
         loadPlatsFromApi()
     }
 
@@ -55,12 +45,10 @@ class CategoryActivity : AppCompatActivity() {
             { response ->
                 try {
                     val datas = Gson().fromJson(response.toString(), Data::class.java)
-                    datas.data.forEach { item ->
-                        if (item.name_fr == title) {
-                            recyclerView.adapter = CategoryAdapter(item.items) {
-                                Toast.makeText(this, "You clicked on $it", Toast.LENGTH_SHORT).show()
-                                startActivity(Intent(this, DetailActivity::class.java).putExtra("item", it))
-                            }
+                    recyclerView.adapter = datas.data?.first { it.name_fr == categorie }?.items?.let { e ->
+                        CategoryAdapter(e) {
+                            //Toast.makeText(this, "You clicked on ${it.name_fr}", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, DetailActivity::class.java).putExtra("item", it))
                         }
                     }
                 } catch (e: JSONException) {

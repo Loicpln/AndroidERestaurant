@@ -2,6 +2,7 @@ package fr.isen.loic.androiderestaurant
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,13 +13,14 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import fr.isen.loic.androiderestaurant.databinding.ActivityCategoryBinding
 import fr.isen.loic.androiderestaurant.model.Data
+import fr.isen.loic.androiderestaurant.model.Item
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 
 class CategoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCategoryBinding
-    private lateinit var recyclerView: RecyclerView
 
     private lateinit var categorie: String
 
@@ -31,8 +33,11 @@ class CategoryActivity : AppCompatActivity() {
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerView = binding.list
-        recyclerView.layoutManager = LinearLayoutManager(null)
+        binding.toolbar.title.text = categorie
+        binding.toolbar.pannier.setOnClickListener {
+            startActivity(Intent(this, PannierActivity::class.java))
+        }
+        binding.list.layoutManager = LinearLayoutManager(null)
         loadPlatsFromApi()
     }
 
@@ -45,7 +50,7 @@ class CategoryActivity : AppCompatActivity() {
             { response ->
                 try {
                     val datas = Gson().fromJson(response.toString(), Data::class.java)
-                    recyclerView.adapter = datas.data?.first { it.name_fr == categorie }?.items?.let { e ->
+                    binding.list.adapter = datas.data?.first { it.name_fr == categorie }?.items?.let { e ->
                         CategoryAdapter(e) {
                             //Toast.makeText(this, "You clicked on ${it.name_fr}", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this, DetailActivity::class.java).putExtra("item", it))

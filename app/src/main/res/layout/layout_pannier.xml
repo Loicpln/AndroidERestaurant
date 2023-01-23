@@ -35,8 +35,8 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/item"
-            android:layout_width="220dp"
+            android:id="@+id/name"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:layout_marginLeft="5dp"
@@ -45,17 +45,25 @@
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TableLayout
-            android:id="@+id/prices"
+        <TextView
+            android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="start"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/suppress"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:text="-"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/loading"

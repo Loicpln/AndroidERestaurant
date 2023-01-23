@@ -7,7 +7,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import android.widget.Toolbar
+import com.google.gson.Gson
 import fr.isen.loic.androiderestaurant.databinding.ActivityHomeBinding
+import fr.isen.loic.androiderestaurant.model.Item
+import java.io.File
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,8 +24,10 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.imageView.setImageResource(R.drawable.logo)
-
+        binding.toolbar.title.text = "Home"
+        binding.toolbar.pannier.setOnClickListener {
+            startActivity(Intent(this, PannierActivity::class.java))
+        }
         addLink(binding.entree)
         addLink(binding.plat)
         addLink(binding.dessert)

@@ -37,6 +37,8 @@ class CategoryActivity : AppCompatActivity() {
         binding.toolbar.pannier.setOnClickListener {
             startActivity(Intent(this, PannierActivity::class.java))
         }
+        refreshPannier()
+
         binding.list.layoutManager = LinearLayoutManager(null)
         loadPlatsFromApi()
     }
@@ -65,4 +67,24 @@ class CategoryActivity : AppCompatActivity() {
             })
         Volley.newRequestQueue(this).add(request)
     }
+
+    private fun refreshPannier() {
+        var file = File(this.filesDir, "pannier.json")
+        if (file.exists()) {
+            val json = file.readText()
+            val pannier = Gson().fromJson(json, Array<Item>::class.java)
+            if(pannier.isNotEmpty()) {
+                binding.toolbar.pastille.visibility = View.VISIBLE
+            }else{
+                binding.toolbar.pastille.visibility = View.GONE
+            }
+            binding.toolbar.pastille.text = pannier.size.toString()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshPannier()
+    }
+
 }

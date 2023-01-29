@@ -15,36 +15,49 @@ import java.io.File
 class PannierActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPannierBinding
-    private lateinit var pannier: Array<Item>
-    private lateinit var file: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pannier)
 
-        title = "Pannier"
         binding = ActivityPannierBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbar.title.text = "Pannier"
-        file = File(this.filesDir, "pannier.json")
 
+        refreshPannier()
+        reloadLayout()
+    }
 
-
+    private fun reloadLayout() {
+        var file = File(this.filesDir, "pannier.json")
         if (file.exists()) {
             val json = file.readText()
-            println(json)
-            pannier = Gson().fromJson(json, Array<Item>::class.java)
+            val pannier = Gson().fromJson(json, Array<Item>::class.java)
             binding.list.layoutManager = LinearLayoutManager(null)
-            reload()
+            binding.list.adapter = PannierAdapter(pannier) { target ->
+                File(this.filesDir, "pannier.json").writeText(Gson().toJson(pannier.filter { it !== target }.toTypedArray()))
+                refreshPannier()
+                reloadLayout()
+            }
         }
     }
 
-    private fun reload() {
-        binding.list.layoutManager = LinearLayoutManager(null)
-        binding.list.adapter = PannierAdapter(pannier) { id ->
-            pannier = pannier.filter { it.id != id }.toTypedArray()
-            File(this.filesDir, "pannier.json").writeText(Gson().toJson(pannier))
-            reload()
+    private fun refreshPannier() {
+        var file = File(this.filesDir, "pannier.json")
+        if (file.exists()) {
+            val json = file.readText()
+            val pannier = Gson().fromJson(json, Array<Item>::class.java)
+            if(pannier.isNotEmpty()) {
+                binding.toolbar.pastille.visibility = View.VISIBLE
+            }else{
+                binding.toolbar.pastille.visibility = View.GONE
+            }
+            binding.toolbar.pastille.text = pannier.size.toString()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshPannier()
     }
 }

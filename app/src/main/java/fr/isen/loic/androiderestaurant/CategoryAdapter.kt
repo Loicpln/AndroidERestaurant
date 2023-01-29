@@ -45,7 +45,7 @@ class CategoryAdapter(private val list: Array<Plat>, private val onClick: (Plat)
         }
         private fun setImages(elem: Plat) {
             if(elem.images[0].isNotEmpty()) {
-                Picasso.get().load(elem.images[0]).resize(150,150).centerCrop().into(image)
+                Picasso.get().load(elem.images[0]).into(image)
             }
         }
         private fun setTitle(elem: Plat) {

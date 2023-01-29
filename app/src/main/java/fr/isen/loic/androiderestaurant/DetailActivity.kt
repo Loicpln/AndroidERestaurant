@@ -20,7 +20,7 @@ class DetailActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        title = "Détail"
+
         plat = intent.getSerializableExtra("item") as Plat
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -29,6 +29,7 @@ class DetailActivity: AppCompatActivity() {
         binding.toolbar.pannier.setOnClickListener {
             startActivity(Intent(this, PannierActivity::class.java))
         }
+        refreshPannier()
         binding.viewPager.adapter = ImageAdapter(this, plat.images)
         binding.name.text = plat.name_fr
         binding.ingredients.text = plat.ingredients?.joinToString(", ") { it.name_fr }
@@ -39,6 +40,7 @@ class DetailActivity: AppCompatActivity() {
             button.text = "${prix.size} : ${(prix.price * quantity).toString().replace(".", "€ ")}0"
             button.setOnClickListener {
                 addInJson(prix.price)
+                refreshPannier()
                 Snackbar.make(binding.root, "Ajouté au panier", Snackbar.LENGTH_SHORT).show()
             }
             binding.addToCart.addView(button)
@@ -76,5 +78,24 @@ class DetailActivity: AppCompatActivity() {
         plat.prices?.forEach { prix ->
             findViewById<Button>(prix.id).text = "${prix.size} : ${(prix.price * quantity).toString().replace(".", "€ ")}0"
         }
+    }
+
+    private fun refreshPannier() {
+        var file = File(this.filesDir, "pannier.json")
+        if (file.exists()) {
+            val json = file.readText()
+            val pannier = Gson().fromJson(json, Array<Item>::class.java)
+            if(pannier.isNotEmpty()) {
+                binding.toolbar.pastille.visibility = View.VISIBLE
+            }else{
+                binding.toolbar.pastille.visibility = View.GONE
+            }
+            binding.toolbar.pastille.text = pannier.size.toString()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshPannier()
     }
 }

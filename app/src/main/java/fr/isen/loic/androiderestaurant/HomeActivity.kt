@@ -20,7 +20,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        title = "Home"
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -28,16 +28,33 @@ class HomeActivity : AppCompatActivity() {
         binding.toolbar.pannier.setOnClickListener {
             startActivity(Intent(this, PannierActivity::class.java))
         }
+        refreshPannier()
         addLink(binding.entree)
         addLink(binding.plat)
         addLink(binding.dessert)
     }
-
+    private fun refreshPannier() {
+        var file = File(this.filesDir, "pannier.json")
+        if (file.exists()) {
+            val json = file.readText()
+            val pannier = Gson().fromJson(json, Array<Item>::class.java)
+            if(pannier.isNotEmpty()) {
+                binding.toolbar.pastille.visibility = View.VISIBLE
+            }else{
+                binding.toolbar.pastille.visibility = View.GONE
+            }
+            binding.toolbar.pastille.text = pannier.size.toString()
+        }
+    }
     private fun addLink(button: Button) {
         button.setOnClickListener {
             //Toast.makeText(this, "You clicked on ${button.text}", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, CategoryActivity::class.java).putExtra("category", button.text))
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        refreshPannier()
     }
 
     override fun onDestroy() {

@@ -6,7 +6,10 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/activity_toolbar" />
+        layout="@layout/toolbar_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

@@ -92,6 +92,8 @@ class DetailActivity: AppCompatActivity() {
                 binding.toolbar.pastille.visibility = View.GONE
             }
             binding.toolbar.pastille.text = pannier.size.toString()
+        }else{
+            binding.toolbar.pastille.visibility = View.GONE
         }
     }
 

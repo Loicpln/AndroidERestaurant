@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import fr.isen.loic.androiderestaurant.databinding.ActivityPannierBinding
 import fr.isen.loic.androiderestaurant.model.Item
@@ -23,19 +24,32 @@ class PannierActivity : AppCompatActivity() {
 
         refreshPannier()
         reloadLayout()
+
+        binding.valider.setOnClickListener {
+
+            val file = File(this.filesDir, "pannier.json")
+            if (file.exists()) {
+                Snackbar.make(binding.root, "Commande passée", Snackbar.LENGTH_SHORT).show()
+                file.delete()
+                refreshPannier()
+                reloadLayout()
+            }
+        }
     }
 
     private fun reloadLayout() {
+        binding.list.layoutManager = LinearLayoutManager(null)
         val file = File(this.filesDir, "pannier.json")
         if (file.exists()) {
             val json = file.readText()
             val pannier = Gson().fromJson(json, Array<Item>::class.java)
-            binding.list.layoutManager = LinearLayoutManager(null)
             binding.list.adapter = PannierAdapter(pannier) { target ->
                 File(this.filesDir, "pannier.json").writeText(Gson().toJson(pannier.filter { it !== target }.toTypedArray()))
                 refreshPannier()
                 reloadLayout()
             }
+        }else{
+            binding.list.adapter = null
         }
     }
 
@@ -50,6 +64,8 @@ class PannierActivity : AppCompatActivity() {
                 binding.toolbar.pastille.visibility = View.GONE
             }
             binding.toolbar.pastille.text = pannier.size.toString()
+        }else{
+            binding.toolbar.pastille.visibility = View.GONE
         }
     }
 

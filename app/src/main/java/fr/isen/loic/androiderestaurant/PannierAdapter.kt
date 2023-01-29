@@ -30,7 +30,7 @@ class PannierAdapter(private val list: Array<Item>, private val onClick: (Item) 
                     Thread.sleep(10)
                 }
                 loading?.post {
-                    loading?.visibility = View.GONE
+                    loading.visibility = View.GONE
                     setImage(elem)
                     setTitle(elem)
                     setPrice(elem)
@@ -61,9 +61,7 @@ class PannierAdapter(private val list: Array<Item>, private val onClick: (Item) 
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (list[position] != null) {
-            holder.bind(list[position], onClick)
-        }
+        holder.bind(list[position], onClick)
     }
 
 }

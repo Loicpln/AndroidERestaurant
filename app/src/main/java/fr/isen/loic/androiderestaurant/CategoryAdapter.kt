@@ -11,8 +11,6 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import fr.isen.loic.androiderestaurant.databinding.ActivityDetailBinding
-import fr.isen.loic.androiderestaurant.databinding.ActivityHomeBinding
 import fr.isen.loic.androiderestaurant.model.Plat
 class CategoryAdapter(private val list: Array<Plat>, private val onClick: (Plat) -> Unit) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
@@ -33,7 +31,7 @@ class CategoryAdapter(private val list: Array<Plat>, private val onClick: (Plat)
                      Thread.sleep(10)
                  }
                  loading?.post {
-                     loading?.visibility = View.GONE
+                     loading.visibility = View.GONE
                      setImages(elem)
                      setTitle(elem)
                      setPrices(elem)
@@ -60,11 +58,11 @@ class CategoryAdapter(private val list: Array<Plat>, private val onClick: (Plat)
                 size.text = price.size+" : "
                 row.addView(size)
 
-                val prix = TextView(prices?.context)
-                prix.gravity = Gravity.END
-                prix.textSize = 12f
-                prix.text = price.price.toString().replace(".", "€ ") + "0"
-                row.addView(prix)
+                val number = TextView(prices?.context)
+                number.gravity = Gravity.END
+                number.textSize = 12f
+                number.text = price.price.toString().replace(".", "€ ") + "0"
+                row.addView(number)
 
                 prices?.addView(row)
             }

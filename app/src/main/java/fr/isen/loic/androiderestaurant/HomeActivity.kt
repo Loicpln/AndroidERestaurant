@@ -1,13 +1,11 @@
 package fr.isen.loic.androiderestaurant
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
-import android.widget.Toolbar
 import com.google.gson.Gson
 import fr.isen.loic.androiderestaurant.databinding.ActivityHomeBinding
 import fr.isen.loic.androiderestaurant.model.Item
@@ -17,6 +15,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -34,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
         addLink(binding.dessert)
     }
     private fun refreshPannier() {
-        var file = File(this.filesDir, "pannier.json")
+        val file = File(this.filesDir, "pannier.json")
         if (file.exists()) {
             val json = file.readText()
             val pannier = Gson().fromJson(json, Array<Item>::class.java)

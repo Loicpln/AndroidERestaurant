@@ -1,12 +1,9 @@
 package fr.isen.loic.androiderestaurant
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import fr.isen.loic.androiderestaurant.databinding.ActivityPannierBinding
 import fr.isen.loic.androiderestaurant.model.Item
@@ -29,7 +26,7 @@ class PannierActivity : AppCompatActivity() {
     }
 
     private fun reloadLayout() {
-        var file = File(this.filesDir, "pannier.json")
+        val file = File(this.filesDir, "pannier.json")
         if (file.exists()) {
             val json = file.readText()
             val pannier = Gson().fromJson(json, Array<Item>::class.java)
@@ -43,7 +40,7 @@ class PannierActivity : AppCompatActivity() {
     }
 
     private fun refreshPannier() {
-        var file = File(this.filesDir, "pannier.json")
+        val file = File(this.filesDir, "pannier.json")
         if (file.exists()) {
             val json = file.readText()
             val pannier = Gson().fromJson(json, Array<Item>::class.java)

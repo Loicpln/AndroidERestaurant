@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -52,12 +51,13 @@ class CategoryActivity : AppCompatActivity() {
             { response ->
                 try {
                     val datas = Gson().fromJson(response.toString(), Data::class.java)
-                    binding.list.adapter = datas.data?.first { it.name_fr == categorie }?.items?.let { e ->
-                        CategoryAdapter(e) {
-                            //Toast.makeText(this, "You clicked on ${it.name_fr}", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, DetailActivity::class.java).putExtra("item", it))
+                    binding.list.adapter =
+                        datas.data.first { it.name_fr == categorie }.items.let { e ->
+                            CategoryAdapter(e) {
+                                //Toast.makeText(this, "You clicked on ${it.name_fr}", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, DetailActivity::class.java).putExtra("item", it))
+                            }
                         }
-                    }
                 } catch (e: JSONException) {
                     Toast.makeText(this, "Error parsing JSON", Toast.LENGTH_SHORT).show()
                 }
@@ -69,7 +69,7 @@ class CategoryActivity : AppCompatActivity() {
     }
 
     private fun refreshPannier() {
-        var file = File(this.filesDir, "pannier.json")
+        val file = File(this.filesDir, "pannier.json")
         if (file.exists()) {
             val json = file.readText()
             val pannier = Gson().fromJson(json, Array<Item>::class.java)

@@ -17,6 +17,7 @@ class DetailActivity: AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var plat: Plat
     private var quantity: Int = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -32,16 +33,16 @@ class DetailActivity: AppCompatActivity() {
         refreshPannier()
         binding.viewPager.adapter = ImageAdapter(this, plat.images)
         binding.name.text = plat.name_fr
-        binding.ingredients.text = plat.ingredients?.joinToString(", ") { it.name_fr }
+        binding.ingredients.text = plat.ingredients.joinToString(", ") { it.name_fr }
 
-        plat.prices?.forEach { prix ->
+        plat.prices.forEach { price ->
             val button = Button(this)
-            button.id = prix.id
-            button.text = "${prix.size} : ${(prix.price * quantity).toString().replace(".", "€ ")}0"
+            button.id = price.id
+            button.text = "${price.size} : ${(price.price * quantity).toString().replace(".", "€ ")}0"
             button.setOnClickListener {
-                addInJson(prix.price)
+                addInJson(price.price)
                 refreshPannier()
-                Snackbar.make(binding.root, "Ajouté au panier", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Ajouté au pannier", Snackbar.LENGTH_SHORT).show()
             }
             binding.addToCart.addView(button)
         }
@@ -75,13 +76,13 @@ class DetailActivity: AppCompatActivity() {
     }
 
     private fun changePrice(){
-        plat.prices?.forEach { prix ->
-            findViewById<Button>(prix.id).text = "${prix.size} : ${(prix.price * quantity).toString().replace(".", "€ ")}0"
+        plat.prices.forEach {
+            findViewById<Button>(it.id).text = "${it.size} : ${(it.price * quantity).toString().replace(".", "€ ")}0"
         }
     }
 
     private fun refreshPannier() {
-        var file = File(this.filesDir, "pannier.json")
+        val file = File(this.filesDir, "pannier.json")
         if (file.exists()) {
             val json = file.readText()
             val pannier = Gson().fromJson(json, Array<Item>::class.java)

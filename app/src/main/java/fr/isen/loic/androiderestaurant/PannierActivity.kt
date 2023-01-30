@@ -26,13 +26,16 @@ class PannierActivity : AppCompatActivity() {
         reloadLayout()
 
         binding.valider.setOnClickListener {
-
             val file = File(this.filesDir, "pannier.json")
             if (file.exists()) {
-                Snackbar.make(binding.root, "Commande passée", Snackbar.LENGTH_SHORT).show()
-                file.delete()
-                refreshPannier()
-                reloadLayout()
+                val json = file.readText()
+                val pannier = Gson().fromJson(json, Array<Item>::class.java)
+                if(pannier.isNotEmpty()) {
+                    Snackbar.make(binding.root, "Commande passée", Snackbar.LENGTH_SHORT).show()
+                    file.delete()
+                    refreshPannier()
+                    reloadLayout()
+                }
             }
         }
     }
